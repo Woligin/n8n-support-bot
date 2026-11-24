@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "078cc08d-ca97-445f-8882-9f48888ee080",
+      "name": "When chat message received",
+      "webhookId": "17cd7b9e-d3e1-4363-8622-59125b14c69a"
+    },
+    {
+      "parameters": {
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Ты бот поддержки сервиса доставки еды. Отвечай коротко, вежливо, на «вы». Если вопрос про возврат денег — скажи, что возврат делается в течение 3 рабочих дней, и попроси номер заказа. Если не знаешь ответа — скажи, что передашь вопрос оператору.\nУ тебя нет доступа к данным о заказах. Не обещай проверить статус сам: попроси номер заказа и скажи, что передашь его оператору, который ответит в течение часа.\nНе здоровайся в каждом сообщении, только если пользователь поздоровался первым."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        224,
+        16
+      ],
+      "id": "6e159629-8a01-4b9f-bb0f-395483082720",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        192
+      ],
+      "id": "4d3003cc-005f-43fe-80f9-dfd0f7b6355d",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "miBxRpEjBlHGewOV",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "237108280add97ebb203f4c58c651f99e1b3bba5b9ce9a57d898bd391f3a4002"
+  }
+}
